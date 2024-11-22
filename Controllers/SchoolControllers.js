@@ -1,5 +1,16 @@
 const mysqlpool = require("../Database/DatabaseConnect");
 
+function isFloat(value) {
+    return /^-?\d*\.\d+$/.test(value);
+}
+
+function isValidLatitude(lat) {
+    return !isNaN(lat) && lat >= -90.0 && lat <= 90.0;
+}
+
+function isValidLongitude(lon) {
+    return !isNaN(lon) && lon >= -180.0 && lon <= 180.0;
+}
 
 const getAllSchool = async (req,res)=>
 {
@@ -40,7 +51,7 @@ const addSchoolDetails = async (req,res)=>
 
         console.log("Adding school details in Process");
 
-        const {name,address,latitude,longitude} = req.body;
+        let {name,address,latitude,longitude} = req.body;
 
         if(!name || !address || !latitude || !longitude)
         {
@@ -51,6 +62,60 @@ const addSchoolDetails = async (req,res)=>
                 message:"Not all parameter are filled."
             })
         }
+
+        name = name.trim();
+        address=address.trim();
+        latitude = latitude.trim();
+        longitude = longitude.trim();
+
+        //checking name value
+        if (typeof name !== "string")
+        {
+            return res.status(404).json({
+                success:false,
+                message:"name is not with right data type string."
+            })
+        }
+
+        // checking address value
+         
+        if(typeof address !== "string")
+        {
+            return res.status(404).json({
+                success:false,
+                message:"Address is not with right data type string."
+            })
+        }
+
+        // checking latitude and longitude with float value
+
+        if(!isFloat(latitude))
+        {
+            return res.status(404).json({
+                success:false,
+                message:"latitude value is not in float type."
+            })
+        }
+
+        if(!isFloat(longitude))
+        {
+            return res.status(404).json({
+                success:false,
+                message:"longitude value is not in float type."
+            })
+        }
+
+        const num1 = parseFloat(latitude);
+        const num2 = parseFloat(longitude);
+
+        if(!isValidLatitude(num1) || !isValidLongitude(num2))
+        {
+            return res.status(404).json({
+                success:false,
+                message:"latitude and longitude is not in  right range."
+            })
+        }
+
 
         const query = ` Insert into 
                             Schools 
@@ -103,6 +168,34 @@ const getListOfNearerSchool = async (req,res)=>
         }
 
         console.log("Got user latitude and longitude information.")
+
+        // checking latitude and longitude data type
+        if(!isFloat(latitude))
+        {
+            return res.status(404).json({
+                success:false,
+                message:"latitude value is not in float type."
+            })
+        }
+
+        if(!isFloat(longitude))
+        {
+            return res.status(404).json({
+                success:false,
+                message:"longitude value is not in float type."
+            })
+        }
+
+        const num1 = parseFloat(latitude);
+        const num2 = parseFloat(longitude);
+
+        if(!isValidLatitude(num1) || !isValidLongitude(num2))
+        {
+            return res.status(404).json({
+                success:false,
+                message:"latitude and longitude is not in  right range."
+            })
+        }
 
         const query = `
         SELECT 
