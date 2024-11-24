@@ -1,5 +1,5 @@
 # School-Management-API
-This is School Management API with Location details and user full for find nearest school to your location.
+Developed a secure, scalable REST API using Node.js, Express.js, and MySQL to manage school data, sort by proximity, and deployed on Railway with thorough Postman testing.
 
 Here are four key points about your project:  
 
