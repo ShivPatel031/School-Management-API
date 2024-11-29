@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv =  require("dotenv");
 const morgan = require("morgan");
 const route = require("./Routes/SchoolsRoutes");
+const pool = require('./Database/DatabaseConnect');
 
 dotenv.config();
 
@@ -22,6 +23,11 @@ app.get('/',(req,res)=>{
         message:"Welcome to School Management API"
     }
 )});
+
+// connect to database
+pool.connect()
+    .then(() => console.log('Connected to CockroachDB successfully'))
+    .catch(err => console.error('Error connecting to CockroachDB:', err.stack));
 
 app.use("/api/v1/schools",route);
 

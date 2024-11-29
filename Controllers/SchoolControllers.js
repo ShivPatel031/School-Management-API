@@ -1,4 +1,4 @@
-const mysqlpool = require("../Database/DatabaseConnect");
+const pool = require("../Database/DatabaseConnect");
 
 function isFloat(value) {
     return /^-?\d*\.\d+$/.test(value);
@@ -19,7 +19,7 @@ const getAllSchool = async (req,res)=>
 
         const query = "Select * from Schools";
 
-        const data = await mysqlpool.query(query);
+        const data = await pool.query(query);
 
         if(!data) console.log("Data not found.")
 
@@ -29,7 +29,7 @@ const getAllSchool = async (req,res)=>
             {
                 success:true,
                 message:"Data recive successfully.",
-                data:data[0]
+                data:data.rows
             }
         )
     } catch (error) {
@@ -117,18 +117,11 @@ const addSchoolDetails = async (req,res)=>
         }
 
 
-        const query = ` Insert into 
-                            Schools 
-                        values
-                            (null,
-                            \"${name}\",
-                            \"${address}\",
-                            ${latitude},
-                            ${longitude})`
+        const query = `INSERT INTO schools (name, address, latitude, longitude) VALUES ('${name}', '${address}', ${latitude},${longitude})`
 
         console.log("executing SQL query.");
 
-        const data = await mysqlpool.query(query);
+        const data = await pool.query(query);
 
         if(!data)
         {
@@ -213,7 +206,7 @@ const getListOfNearerSchool = async (req,res)=>
 
     console.log("executing sql query.")
     
-    const data = await mysqlpool.query(query);
+    const data = await pool.query(query);
 
     if(!data)
     {
@@ -227,7 +220,7 @@ const getListOfNearerSchool = async (req,res)=>
         {
             success:true,
             message:"School details fetched in order successfully.",
-            data:data[0]
+            data:data.rows
         }
     )
         
