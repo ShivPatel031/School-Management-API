@@ -38,7 +38,7 @@ const getAllSchool = async (req,res)=>
             {
                 success:true,
                 message:"Some thing went wrong while fetching data.",
-                data:data[0]
+                data:data.rows
             }
         )
     }
