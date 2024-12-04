@@ -17,3 +17,5 @@ Here are four key points about your project:
 
 4. **Learning and Solo Work**  
    - This was a solo project where you learned valuable skills in API development, deployment, and testing. The project enhanced your understanding of backend development and practical application of database hosting and deployment tools.  
+
+# deployed link :- https://school-management-api-production-ed42.up.railway.app/api/v1/schools
