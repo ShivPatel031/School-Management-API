@@ -14,7 +14,7 @@ const port = process.env.PORT || 8001;
 //middleware
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended:true}));
 
 app.get('/',(req,res)=>{
     return res.status(200).json(
